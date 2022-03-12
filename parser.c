@@ -80,7 +80,6 @@ void parse_file ( char * filename,
 
   while ( fgets(line, sizeof(line), f) != NULL ) {
     line[strlen(line)-1]='\0';
-    //printf(":%s:\n",line);
 
     double xvals[3];
     double yvals[3];
@@ -169,5 +168,17 @@ void parse_file ( char * filename,
       draw_lines(edges, s, c);
       save_extension(s, line);
     }//end save
+
+    else if (strncmp(line, "circle", strlen(line)) == 0){
+      fgets(line, sizeof(line), f);
+      *strchr(line, '\n') = 0;
+      double cx = 0;
+      double cy = 0;
+      double cz = 0;
+      double r = 0;
+      sscanf(line, "%lf %lf %lf %lf", &cx, &cy, &cz, &r);
+
+      add_circle(edges, cx, cy, cz, r, 0.01);
+    }
   }
 }
