@@ -19,7 +19,35 @@
   to generate the coefiecients for a bezier curve
   ====================*/
 struct matrix * make_bezier() {
-    return NULL;
+  struct matrix * bezier = new_matrix(4,4);
+
+  //row 1
+  bezier->m[0][0] = -1;
+  bezier->m[0][1] = 3;
+  bezier->m[0][2] = -3;
+  bezier->m[0][3] = 1;
+
+  //row 2
+  bezier->m[1][0] = 3;
+  bezier->m[1][1] = -6;
+  bezier->m[1][2] = 3;
+  bezier->m[1][3] = 0;
+
+  //row 3
+  bezier->m[2][0] = -3;
+  bezier->m[2][1] = 3;
+  bezier->m[2][2] = 0;
+  bezier->m[2][3] = 0;
+
+  //row 4
+  bezier->m[3][0] = 1;
+  bezier->m[3][1] = 0;
+  bezier->m[3][2] = 0;
+  bezier->m[3][3] = 0;
+
+  bezier->lastcol = 4;
+
+  return bezier;
 }
 
 /*======== struct matrix * make_hermite() ==========
@@ -75,7 +103,7 @@ struct matrix * generate_curve_coefs( double p0, double p1,
                                       double p2, double p3, int type) {
 
   struct matrix * given = new_matrix(4, 2);
-  if (type == HERMITE){
+  if (type >= 0){
     //X
     given->m[0][0] = p0; //x0
     given->m[1][0] = p1; //x1
