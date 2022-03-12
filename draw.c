@@ -59,6 +59,45 @@ void add_curve( struct matrix *edges,
                 double x2, double y2,
                 double x3, double y3,
                 double step, int type ) {
+
+  if (type == HERMITE){
+    struct matrix * hermite_inverse = make_hermite();
+    struct matrix * givenX = generate_curve_coefs(x0, x1, x2, x3, HERMITE);
+    struct matrix * givenY = generate_curve_coefs(y0, y1, y2, y3, HERMITE);
+    /*
+    //X
+    given->m[0][0] = x0; //x0
+    given->m[1][0] = x1; //x1
+    given->m[2][0] = x2; //rx0
+    given->m[3][0] = x3; //rx1
+    //Y
+    given->m[0][1] = y0; //y0
+    given->m[1][1] = y1; //y1
+    given->m[2][1] = y2; //ry0
+    given->m[3][1] = y3; //ry1
+
+    given->lastcol = 2;
+    */
+
+    matrix_mult(hermite_inverse, givenX);
+    matrix_mult(hermite_inverse, givenY);
+
+    float i = 0;
+    float x = givenX->m[0][0] * (i * i * i) + givenX->m[1][0] * (i * i) + givenX->m[2][0] * (i) + givenX->m[3][0];
+    float y = givenY->m[0][1] * (i * i * i) + givenY->m[1][1] * (i * i) + givenY->m[2][1] * (i) + givenY->m[3][1];
+
+    for (i = i + step; i <= 1; i = i + step){;
+      float x1 = givenX->m[0][0] * (i * i * i) + givenX->m[1][0] * (i * i) + givenX->m[2][0] * (i) + givenX->m[3][0];
+      float y1 = givenY->m[0][1] * (i * i * i) + givenY->m[1][1] * (i * i) + givenY->m[2][1] * (i) + givenY->m[3][1];
+
+      add_edge(edges, x, y, 0, x1, y1, 0);
+
+      x = x1;
+      y = y1;
+    }
+  } else if (type == BEZIER){
+    
+  }
 }
 
 

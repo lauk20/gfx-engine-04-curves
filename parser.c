@@ -180,5 +180,12 @@ void parse_file ( char * filename,
 
       add_circle(edges, cx, cy, cz, r, 0.01);
     }
+
+    else if (strncmp(line, "hermite", strlen(line)) == 0){
+      fgets(line, sizeof(line), f);
+      *strchr(line, '\n') = 0;
+      sscanf(line, "%lf %lf %lf %lf %lf %lf %lf %lf", xvals, yvals, xvals + 1, yvals + 1, xvals + 2, yvals + 2, xvals + 3, yvals + 3);
+      add_curve(edges, *xvals, *yvals, xvals[1], yvals[1], xvals[2], yvals[2], xvals[3], yvals[3], 0.01, HERMITE);
+    }
   }
 }
